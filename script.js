@@ -87,6 +87,17 @@ const beverages = [
     accentA: "#cbf57b",
     accentB: "#6fe3d7",
   },
+  {
+    id: "super-duper-mountain-gray",
+    name: "Super Duper Mountain Gray",
+    category: "Tea",
+    origin: "Darjeeling, India",
+    description: "Smoky gray tea with bergamot essence and a misty mountain mineral character.",
+    tags: ["Smoky", "Mineral", "Refined"],
+    baseRating: 4.5,
+    accentA: "#9bb2ff",
+    accentB: "#7f77ff",
+  },
 ];
 
 const storageKey = "liquid-atlas-ratings";
