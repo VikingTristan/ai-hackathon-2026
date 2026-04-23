@@ -127,7 +127,12 @@ app.innerHTML = `
 
         <aside class="spotlight-panel" id="spotlight-panel" aria-live="polite">
           <p class="spotlight-panel__label">Current Spotlight</p>
-          <img class="spotlight-panel__logo" id="spotlight-logo" src="" alt="" />
+          <img
+            class="spotlight-panel__logo"
+            id="spotlight-logo"
+            src="${spriteLogo}"
+            alt="Sprite logo"
+          />
           <h2 id="spotlight-name">Sprite</h2>
           <p id="spotlight-description">The classic crisp lemon-lime soda with bright carbonation.</p>
           <div class="spotlight-panel__meta">
@@ -188,7 +193,7 @@ app.innerHTML = `
       <div class="beverage-card__visual">
         <div class="beverage-card__glow"></div>
         <div class="beverage-card__orb"></div>
-        <img class="beverage-card__logo" src="" alt="" />
+        <img class="beverage-card__logo" src="${spriteLogo}" alt="Beverage logo" />
         <p class="beverage-card__category"></p>
       </div>
 
