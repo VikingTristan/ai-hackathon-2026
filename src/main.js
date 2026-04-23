@@ -1,5 +1,3 @@
-import "./styles.css";
-
 const beverages = [
   {
     id: "aurora-matcha-tonic",
