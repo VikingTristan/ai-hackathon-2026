@@ -301,7 +301,7 @@ function visibleBeverages() {
 
 function setSpotlight(beverage) {
   spotlightLogo.src = beverage.logo || placeholderLogo;
-  spotlightLogo.alt = beverage.logo ? `${beverage.name} logo` : "Beverage logo unavailable";
+  spotlightLogo.alt = beverage.logo ? `${beverage.name} logo` : "Beverage logo placeholder";
   spotlightName.textContent = beverage.name;
   spotlightDescription.textContent = beverage.description;
   spotlightTag.textContent = beverage.category;
@@ -367,7 +367,7 @@ function renderCards() {
     glow.style.background = `radial-gradient(circle, ${beverage.accentA}, transparent 70%)`;
     orb.style.background = `radial-gradient(circle at 35% 35%, ${beverage.accentB}, transparent 72%)`;
     logo.src = beverage.logo || placeholderLogo;
-    logo.alt = beverage.logo ? `${beverage.name} logo` : "Beverage logo unavailable";
+    logo.alt = beverage.logo ? `${beverage.name} logo` : "Beverage logo placeholder";
     category.textContent = beverage.category;
     name.textContent = beverage.name;
     origin.textContent = beverage.origin;
