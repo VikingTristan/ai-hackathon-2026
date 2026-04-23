@@ -200,7 +200,7 @@ app.innerHTML = `
       <div class="beverage-card__visual">
         <div class="beverage-card__glow"></div>
         <div class="beverage-card__orb"></div>
-        <img class="beverage-card__logo" src="${placeholderLogo}" alt="Beverage logo" />
+        <img class="beverage-card__logo" src="${placeholderLogo}" alt="" />
         <p class="beverage-card__category"></p>
       </div>
 
