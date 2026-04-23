@@ -298,6 +298,15 @@ h2 {
   margin-top: 18px;
 }
 
+.spotlight-panel__logo {
+  display: block;
+  width: min(100%, 280px);
+  margin-top: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+
 #spotlight-description {
   margin: 16px 0 0;
   line-height: 1.7;
@@ -321,6 +330,7 @@ h2 {
   background: rgba(255, 255, 255, 0.08);
   color: var(--text);
   font-size: 0.92rem;
+  z-index: 2;
 }
 
 .controls {
@@ -454,6 +464,20 @@ h2 {
   height: 200px;
   opacity: 0.78;
   filter: blur(2px);
+}
+
+.beverage-card__logo {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 18px;
+  width: calc(100% - 48px);
+  height: 110px;
+  object-fit: contain;
+  z-index: 1;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 15, 24, 0.42);
 }
 
 .beverage-card__body {
