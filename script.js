@@ -87,6 +87,17 @@ const beverages = [
     accentA: "#cbf57b",
     accentB: "#6fe3d7",
   },
+  {
+    id: "super-duper-mountain-gray",
+    name: "Super Duper Mountain Gray",
+    category: "Tea",
+    origin: "Pokhara, Nepal",
+    description: "High-altitude black tea brightened with bergamot and pine honey for a brisk finish.",
+    tags: ["Bergamot", "Mountain", "Classic"],
+    baseRating: 4.5,
+    accentA: "#9bb2ff",
+    accentB: "#cbf57b",
+  },
 ];
 
 const storageKey = "liquid-atlas-ratings";
