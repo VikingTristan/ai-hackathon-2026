@@ -39,6 +39,13 @@ const cocaColaLogo = makeLogo(`
 </svg>
 `);
 
+const placeholderLogo = makeLogo(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Beverage logo placeholder">
+  <rect width="320" height="180" rx="28" fill="#1a1d2e" />
+  <text x="160" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#ffffffaa">Logo</text>
+</svg>
+`);
+
 const beverages = [
   {
     id: "sprite",
@@ -193,7 +200,7 @@ app.innerHTML = `
       <div class="beverage-card__visual">
         <div class="beverage-card__glow"></div>
         <div class="beverage-card__orb"></div>
-        <img class="beverage-card__logo" src="${spriteLogo}" alt="Sprite logo" />
+        <img class="beverage-card__logo" src="${placeholderLogo}" alt="Beverage logo" />
         <p class="beverage-card__category"></p>
       </div>
 
@@ -293,8 +300,8 @@ function visibleBeverages() {
 }
 
 function setSpotlight(beverage) {
-  spotlightLogo.src = beverage.logo;
-  spotlightLogo.alt = `${beverage.name} logo`;
+  spotlightLogo.src = beverage.logo || placeholderLogo;
+  spotlightLogo.alt = beverage.logo ? `${beverage.name} logo` : "Beverage logo unavailable";
   spotlightName.textContent = beverage.name;
   spotlightDescription.textContent = beverage.description;
   spotlightTag.textContent = beverage.category;
@@ -359,8 +366,8 @@ function renderCards() {
     card.dataset.id = beverage.id;
     glow.style.background = `radial-gradient(circle, ${beverage.accentA}, transparent 70%)`;
     orb.style.background = `radial-gradient(circle at 35% 35%, ${beverage.accentB}, transparent 72%)`;
-    logo.src = beverage.logo;
-    logo.alt = `${beverage.name} logo`;
+    logo.src = beverage.logo || placeholderLogo;
+    logo.alt = beverage.logo ? `${beverage.name} logo` : "Beverage logo unavailable";
     category.textContent = beverage.category;
     name.textContent = beverage.name;
     origin.textContent = beverage.origin;
