@@ -45,7 +45,6 @@ const placeholderLogo = makeLogo(`
   <text x="160" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#ffffffaa">Logo</text>
 </svg>
 `);
-
 const beverages = [
   {
     id: "sprite",
