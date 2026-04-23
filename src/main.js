@@ -100,6 +100,54 @@ const beverages = [
   },
 ];
 
+const demoUsers = [
+  {
+    username: "HackyMcGoat 🐐",
+    avatar: "https://randomuser.me/api/portraits/med/men/1.jpg",
+    about: "Loves weird hackathon snacks, always up for a challenge!",
+    likes: ["AI prompts", "creative voting", "open source memes"],
+    dislikes: ["Boring forms", "hidden leaderboards"],
+    recentVotes: [
+      "Voted up: Best AI-powered pizza suggestion feature!",
+      "Voted up: Ember Espresso Fizz should stay #1",
+    ],
+    testimonials: [
+      "This site helped me find my tribe. 🤘",
+      "The community vibe makes every rating feel like a team sport.",
+    ],
+  },
+  {
+    username: "Cyborgeeky 🤖",
+    avatar: "https://randomuser.me/api/portraits/med/women/44.jpg",
+    about: "Builds tiny robots and loud opinions about flavor combos.",
+    likes: ["Public vote feeds", "silly avatars", "spicy cold brew"],
+    dislikes: ["Slow filters", "mystery metrics"],
+    recentVotes: [
+      "Voted up: Atlas Citrus Mate for focus mode mornings",
+      "Voted up: Fjordberry Spritz deserves a comeback",
+    ],
+    testimonials: [
+      "Seeing everyone’s picks made me try drinks I would have skipped.",
+      "I came for beverages, stayed for the chaos comments.",
+    ],
+  },
+  {
+    username: "PixelPenguin 🐧",
+    avatar: "https://randomuser.me/api/portraits/med/men/32.jpg",
+    about: "Part-time designer, full-time collector of oddly specific favorites.",
+    likes: ["Transparent scores", "fun profiles", "coconut foam"],
+    dislikes: ["Wall-of-text UIs", "empty review sections"],
+    recentVotes: [
+      "Voted up: Violet Ube Cloud for dessert-hour glory",
+      "Voted up: Sunline Mango Lassi as comfort MVP",
+    ],
+    testimonials: [
+      "The testimonials gave me instant trust in what to sip next.",
+      "Love that every opinion is tied to a real (and goofy) profile.",
+    ],
+  },
+];
+
 const storageKey = "liquid-atlas-ratings";
 
 const app = document.querySelector("#app");
@@ -203,6 +251,27 @@ app.innerHTML = `
 
         <div class="beverage-grid" id="beverage-grid" aria-live="polite"></div>
       </section>
+
+      <section class="community" id="community" aria-label="Community testimonials and votes">
+        <div class="catalog__header">
+          <div>
+            <p class="eyebrow">Community Hub</p>
+            <h2>Votes, Testimonials & Demo Profiles</h2>
+          </div>
+          <p class="catalog__status" id="community-status">Loading community updates...</p>
+        </div>
+
+        <div class="community-pulse">
+          <p class="community-pulse__title">Discover what the community loves and hates</p>
+          <div class="community-pulse__actions" role="group" aria-label="Community sentiment view">
+            <button class="ghost-button is-active" id="pulse-likes" type="button">What we love</button>
+            <button class="ghost-button" id="pulse-dislikes" type="button">What we hate</button>
+          </div>
+          <ul class="tag-row community-pulse__tags" id="community-pulse-tags"></ul>
+        </div>
+
+        <div class="community-grid" id="community-grid" aria-live="polite"></div>
+      </section>
     </main>
   </div>
 
@@ -246,6 +315,7 @@ app.innerHTML = `
 let activeCategory = "all";
 let activeSearch = "";
 let spotlightIndex = 0;
+let pulseMode = "likes";
 let ratings = loadRatings();
 
 const beverageGrid = document.querySelector("#beverage-grid");
@@ -263,6 +333,11 @@ const spotlightDescription = document.querySelector("#spotlight-description");
 const spotlightTag = document.querySelector("#spotlight-tag");
 const spotlightOrigin = document.querySelector("#spotlight-origin");
 const cardTemplate = document.querySelector("#beverage-card-template");
+const communityGrid = document.querySelector("#community-grid");
+const communityStatus = document.querySelector("#community-status");
+const pulseTags = document.querySelector("#community-pulse-tags");
+const pulseLikesButton = document.querySelector("#pulse-likes");
+const pulseDislikesButton = document.querySelector("#pulse-dislikes");
 
 function loadRatings() {
   try {
@@ -394,6 +469,72 @@ function renderCards() {
   });
 }
 
+function renderCommunityPulse() {
+  const entries = demoUsers.flatMap((user) => user[pulseMode]);
+  const counts = entries.reduce((map, entry) => {
+    map.set(entry, (map.get(entry) || 0) + 1);
+    return map;
+  }, new Map());
+  const sortedEntries = [...counts.entries()].sort((left, right) => right[1] - left[1]);
+
+  pulseTags.textContent = "";
+  sortedEntries.forEach(([entry, count]) => {
+    const item = document.createElement("li");
+    item.textContent = `${entry} (${count})`;
+    pulseTags.appendChild(item);
+  });
+
+  pulseLikesButton.classList.toggle("is-active", pulseMode === "likes");
+  pulseDislikesButton.classList.toggle("is-active", pulseMode === "dislikes");
+}
+
+function renderCommunity() {
+  communityGrid.textContent = "";
+  communityStatus.textContent = `${demoUsers.length} demo members sharing votes and testimonials`;
+
+  demoUsers.forEach((user, index) => {
+    const card = document.createElement("article");
+    card.className = "community-card reveal";
+    card.style.animationDelay = `${index * 80}ms`;
+
+    const likes = user.likes.map((item) => `<li>${item}</li>`).join("");
+    const dislikes = user.dislikes.map((item) => `<li>${item}</li>`).join("");
+    const votes = user.recentVotes
+      .map((entry) => `<li><span class="activity-pill">Vote</span><p>${entry}</p></li>`)
+      .join("");
+    const testimonials = user.testimonials
+      .map((entry) => `<li><span class="activity-pill">Testimonial</span><p>${entry}</p></li>`)
+      .join("");
+
+    card.innerHTML = `
+      <div class="community-card__profile">
+        <img src="${user.avatar}" alt="${user.username} avatar" loading="lazy" />
+        <div>
+          <h3>${user.username}</h3>
+          <p>${user.about}</p>
+        </div>
+      </div>
+      <div class="community-card__details">
+        <div>
+          <h4>Likes</h4>
+          <ul class="tag-row">${likes}</ul>
+        </div>
+        <div>
+          <h4>Dislikes</h4>
+          <ul class="tag-row">${dislikes}</ul>
+        </div>
+      </div>
+      <div class="community-card__activity">
+        <h4>Recent votes</h4>
+        <ul>${votes}</ul>
+        <h4>Testimonials</h4>
+        <ul>${testimonials}</ul>
+      </div>
+    `;
+    communityGrid.appendChild(card);
+  });
+}
+
 function rateBeverage(beverageId, value) {
   ratings = {
     ...ratings,
@@ -436,6 +577,14 @@ searchInput.addEventListener("input", (event) => {
 resetFiltersButton.addEventListener("click", resetFilters);
 surpriseButton.addEventListener("click", () => rotateSpotlight(false));
 randomRatingButton.addEventListener("click", () => rotateSpotlight(true));
+pulseLikesButton.addEventListener("click", () => {
+  pulseMode = "likes";
+  renderCommunityPulse();
+});
+pulseDislikesButton.addEventListener("click", () => {
+  pulseMode = "dislikes";
+  renderCommunityPulse();
+});
 
 beverageGrid.addEventListener("click", (event) => {
   const button = event.target.closest(".star-button");
@@ -447,3 +596,5 @@ populateCategories();
 setSpotlight(beverages[0]);
 updateStats();
 renderCards();
+renderCommunityPulse();
+renderCommunity();

@@ -61,7 +61,8 @@ body::before {
 
 .hero,
 .controls,
-.catalog {
+.catalog,
+.community {
   position: relative;
 }
 
@@ -386,6 +387,129 @@ h2 {
   margin-top: 32px;
 }
 
+.community {
+  margin-top: 36px;
+}
+
+.community-pulse,
+.community-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+    var(--panel);
+}
+
+.community-pulse {
+  padding: 22px;
+}
+
+.community-pulse__title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.community-pulse__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.community-pulse .ghost-button {
+  min-height: 44px;
+}
+
+.community-pulse .ghost-button.is-active {
+  border-color: rgba(111, 227, 215, 0.6);
+  background: rgba(111, 227, 215, 0.15);
+}
+
+.community-pulse__tags {
+  margin-top: 14px;
+}
+
+.community-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.community-card {
+  grid-column: span 4;
+  padding: 20px;
+  display: grid;
+  gap: 18px;
+}
+
+.community-card__profile {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.community-card__profile img {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  object-fit: cover;
+}
+
+.community-card__profile p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.community-card__details {
+  display: grid;
+  gap: 12px;
+}
+
+.community-card__details h4,
+.community-card__activity h4 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.community-card__activity ul {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.community-card__activity li {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.community-card__activity p {
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+
+.activity-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(246, 198, 103, 0.18);
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 .catalog__header {
   justify-content: space-between;
   align-items: end;
@@ -580,6 +704,10 @@ h2 {
   .beverage-card {
     grid-column: span 6;
   }
+
+  .community-card {
+    grid-column: span 6;
+  }
 }
 
 @media (max-width: 760px) {
@@ -613,6 +741,14 @@ h2 {
   .beverage-card {
     grid-column: span 1;
     min-height: auto;
+  }
+
+  .community-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .community-card {
+    grid-column: span 1;
   }
 
   .beverage-card__topline {
