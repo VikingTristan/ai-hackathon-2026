@@ -1,3 +1,5 @@
+import "./styles.css";
+
 const beverages = [
   {
     id: "aurora-matcha-tonic",
@@ -101,6 +103,148 @@ const beverages = [
 ];
 
 const storageKey = "liquid-atlas-ratings";
+
+const app = document.querySelector("#app");
+
+app.innerHTML = `
+  <div class="page-shell">
+    <header class="hero">
+      <nav class="topbar">
+        <div class="brand-mark">
+          <span class="brand-mark__icon"></span>
+          <span class="brand-mark__text">Liquid Atlas</span>
+        </div>
+        <button class="glass-button" id="surprise-button" type="button">Surprise Me</button>
+      </nav>
+
+      <div class="hero__content">
+        <div class="hero__copy">
+          <p class="eyebrow">Curated Beverage Index 2026</p>
+          <h1>Rate drinks that feel crafted, not catalogued.</h1>
+          <p class="hero__lede">
+            A tactile tasting experience built in pure HTML, CSS, and JavaScript. Browse vivid
+            pours, compare house favorites, and leave your own score with instant feedback.
+          </p>
+
+          <div class="hero__actions">
+            <a class="primary-button" href="#catalog">Start Tasting</a>
+            <button class="ghost-button" id="random-rating-button" type="button">
+              Highlight Top Rated
+            </button>
+          </div>
+
+          <dl class="hero__stats" id="hero-stats">
+            <div>
+              <dt>Total Drinks</dt>
+              <dd id="stat-total">0</dd>
+            </div>
+            <div>
+              <dt>Community Avg</dt>
+              <dd id="stat-average">0.0</dd>
+            </div>
+            <div>
+              <dt>Your Ratings</dt>
+              <dd id="stat-rated">0</dd>
+            </div>
+          </dl>
+        </div>
+
+        <aside class="spotlight-panel" id="spotlight-panel" aria-live="polite">
+          <p class="spotlight-panel__label">Current Spotlight</p>
+          <h2 id="spotlight-name">Aurora Matcha Tonic</h2>
+          <p id="spotlight-description">
+            Botanical brightness, electric citrus, and a velvet green tea finish.
+          </p>
+          <div class="spotlight-panel__meta">
+            <span id="spotlight-tag">Sparkling</span>
+            <span id="spotlight-origin">Osaka, Japan</span>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <main>
+      <section class="controls" aria-label="Beverage controls">
+        <div class="section-heading">
+          <p class="eyebrow">Discover</p>
+          <h2>Find your next obsession</h2>
+        </div>
+
+        <div class="control-grid">
+          <label class="search-field">
+            <span>Search</span>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Try yuzu, espresso, cacao..."
+              autocomplete="off"
+            />
+          </label>
+
+          <label class="filter-field">
+            <span>Category</span>
+            <select id="category-filter">
+              <option value="all">All categories</option>
+            </select>
+          </label>
+
+          <button class="glass-button glass-button--wide" id="reset-filters" type="button">
+            Reset Filters
+          </button>
+        </div>
+      </section>
+
+      <section class="catalog" id="catalog">
+        <div class="catalog__header">
+          <div>
+            <p class="eyebrow">Collection</p>
+            <h2>Beverages Worth Remembering</h2>
+          </div>
+          <p class="catalog__status" id="results-status">Loading beverages...</p>
+        </div>
+
+        <div class="beverage-grid" id="beverage-grid" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="beverage-card-template">
+    <article class="beverage-card">
+      <div class="beverage-card__visual">
+        <div class="beverage-card__glow"></div>
+        <div class="beverage-card__orb"></div>
+        <p class="beverage-card__category"></p>
+      </div>
+
+      <div class="beverage-card__body">
+        <div class="beverage-card__topline">
+          <div>
+            <h3 class="beverage-card__name"></h3>
+            <p class="beverage-card__origin"></p>
+          </div>
+          <div class="score-badge">
+            <span class="score-badge__value"></span>
+            <span class="score-badge__label">avg</span>
+          </div>
+        </div>
+
+        <p class="beverage-card__description"></p>
+
+        <ul class="tag-row"></ul>
+
+        <div class="rating-panel">
+          <div class="rating-panel__summary">
+            <span class="rating-panel__label">Your rating</span>
+            <strong class="rating-panel__value">Not rated</strong>
+          </div>
+
+          <div class="star-row" role="radiogroup" aria-label="Rate beverage"></div>
+        </div>
+      </div>
+    </article>
+  </template>
+`;
+
 let activeCategory = "all";
 let activeSearch = "";
 let spotlightIndex = 0;
@@ -158,8 +302,9 @@ function visibleBeverages() {
   return beverages.filter((beverage) => {
     const matchesCategory =
       activeCategory === "all" || beverage.category.toLowerCase() === activeCategory;
-    const haystack = `${beverage.name} ${beverage.origin} ${beverage.description} ${beverage.tags.join(" ")}`
-      .toLowerCase();
+    const haystack =
+      `${beverage.name} ${beverage.origin} ${beverage.description} ${beverage.tags.join(" ")}`
+        .toLowerCase();
     const matchesSearch = haystack.includes(activeSearch);
     return matchesCategory && matchesSearch;
   });
