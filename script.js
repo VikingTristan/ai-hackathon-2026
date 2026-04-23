@@ -1,93 +1,4 @@
-const beverages = [
-  {
-    id: "aurora-matcha-tonic",
-    name: "Aurora Matcha Tonic",
-    category: "Sparkling",
-    origin: "Osaka, Japan",
-    description: "Bright matcha, yuzu zest, and tonic bubbles with a cool mineral finish.",
-    tags: ["Citrus", "Tea", "Electric"],
-    baseRating: 4.4,
-    accentA: "#6fe3d7",
-    accentB: "#cbf57b",
-  },
-  {
-    id: "ember-espresso-fizz",
-    name: "Ember Espresso Fizz",
-    category: "Coffee",
-    origin: "Melbourne, Australia",
-    description: "Cold espresso shaken with blood orange and panela syrup into a velvet sparkle.",
-    tags: ["Coffee", "Citrus", "Night Shift"],
-    baseRating: 4.7,
-    accentA: "#f07067",
-    accentB: "#f6c667",
-  },
-  {
-    id: "celestial-cacao-milk",
-    name: "Celestial Cacao Milk",
-    category: "Comfort",
-    origin: "Oaxaca, Mexico",
-    description: "Roasted cacao, cinnamon, oat milk, and a soft chili bloom that lingers.",
-    tags: ["Cacao", "Creamy", "Spiced"],
-    baseRating: 4.5,
-    accentA: "#f6c667",
-    accentB: "#f07067",
-  },
-  {
-    id: "fjordberry-spritz",
-    name: "Fjordberry Spritz",
-    category: "Sparkling",
-    origin: "Bergen, Norway",
-    description: "Lingonberry, spruce tips, and glacier-cold soda with sharp northern perfume.",
-    tags: ["Berry", "Herbal", "Crisp"],
-    baseRating: 4.3,
-    accentA: "#9bb2ff",
-    accentB: "#6fe3d7",
-  },
-  {
-    id: "midnight-jasmine-cola",
-    name: "Midnight Jasmine Cola",
-    category: "Soda",
-    origin: "Taipei, Taiwan",
-    description: "Dark caramel depth lit by jasmine aromatics and a clean star-anise snap.",
-    tags: ["Floral", "Cola", "Unexpected"],
-    baseRating: 4.1,
-    accentA: "#7f77ff",
-    accentB: "#f07067",
-  },
-  {
-    id: "sunline-mango-lassi",
-    name: "Sunline Mango Lassi",
-    category: "Comfort",
-    origin: "Jaipur, India",
-    description: "Ripe mango, cultured yogurt, saffron, and cardamom with dense silk texture.",
-    tags: ["Tropical", "Creamy", "Golden"],
-    baseRating: 4.8,
-    accentA: "#f6c667",
-    accentB: "#ff9e57",
-  },
-  {
-    id: "violet-ube-cloud",
-    name: "Violet Ube Cloud",
-    category: "Dessert",
-    origin: "Manila, Philippines",
-    description: "Toasted ube, coconut foam, and vanilla ice in a confectionary purple drift.",
-    tags: ["Dessert", "Velvet", "Coconut"],
-    baseRating: 4.2,
-    accentA: "#b985ff",
-    accentB: "#f6c667",
-  },
-  {
-    id: "atlas-citrus-mate",
-    name: "Atlas Citrus Mate",
-    category: "Tea",
-    origin: "Buenos Aires, Argentina",
-    description: "Yerba mate with pomelo and mint, tuned for focus and bright green energy.",
-    tags: ["Botanical", "Focus", "Zesty"],
-    baseRating: 4.6,
-    accentA: "#cbf57b",
-    accentB: "#6fe3d7",
-  },
-];
+let beverages = [];
 
 const storageKey = "liquid-atlas-ratings";
 let activeCategory = "all";
@@ -110,6 +21,20 @@ const spotlightDescription = document.querySelector("#spotlight-description");
 const spotlightTag = document.querySelector("#spotlight-tag");
 const spotlightOrigin = document.querySelector("#spotlight-origin");
 const cardTemplate = document.querySelector("#beverage-card-template");
+
+async function loadBeverages() {
+  try {
+    const response = await fetch("./beverages.json");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    if (!Array.isArray(data)) throw new Error("Invalid beverages payload");
+    return data;
+  } catch (error) {
+    console.error("Unable to load beverages:", error);
+    resultsStatus.textContent = "Unable to load beverages";
+    return [];
+  }
+}
 
 function loadRatings() {
   try {
@@ -155,6 +80,14 @@ function visibleBeverages() {
 }
 
 function setSpotlight(beverage) {
+  if (!beverage) {
+    spotlightName.textContent = "No beverages available";
+    spotlightDescription.textContent = "Add beverages to the collection to see spotlight details.";
+    spotlightTag.textContent = "N/A";
+    spotlightOrigin.textContent = "N/A";
+    return;
+  }
+
   spotlightName.textContent = beverage.name;
   spotlightDescription.textContent = beverage.description;
   spotlightTag.textContent = beverage.category;
@@ -162,6 +95,13 @@ function setSpotlight(beverage) {
 }
 
 function updateStats() {
+  if (!beverages.length) {
+    statTotal.textContent = "0";
+    statAverage.textContent = "0.0";
+    statRated.textContent = String(Object.keys(ratings).length);
+    return;
+  }
+
   const scores = beverages.map((beverage) => communityScore(beverage));
   const average = scores.reduce((total, score) => total + score, 0) / scores.length;
   statTotal.textContent = String(beverages.length);
@@ -251,6 +191,11 @@ function rateBeverage(beverageId, value) {
 }
 
 function rotateSpotlight(preferTopRated = false) {
+  if (!beverages.length) {
+    setSpotlight();
+    return;
+  }
+
   const sorted = [...beverages].sort((left, right) => communityScore(right) - communityScore(left));
   if (preferTopRated) {
     setSpotlight(sorted[0]);
@@ -289,7 +234,12 @@ beverageGrid.addEventListener("click", (event) => {
   rateBeverage(button.dataset.beverageId, Number(button.dataset.value));
 });
 
-populateCategories();
-setSpotlight(beverages[0]);
-updateStats();
-renderCards();
+async function initializeApp() {
+  beverages = await loadBeverages();
+  populateCategories();
+  setSpotlight(beverages[0]);
+  updateStats();
+  renderCards();
+}
+
+initializeApp();
