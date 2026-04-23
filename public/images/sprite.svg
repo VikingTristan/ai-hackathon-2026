@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Enhanced Sprite logo -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00A651;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#007A3D;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="sunburstGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#FFED00;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#FDD017;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#00A651;stop-opacity:0" />
+    </radialGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E8F5E9;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Main background circle -->
+  <circle cx="100" cy="100" r="92" fill="url(#bgGrad)"/>
+
+  <!-- Yellow sunburst accent -->
+  <circle cx="100" cy="100" r="75" fill="url(#sunburstGrad)" opacity="0.3"/>
+
+  <!-- Decorative rays -->
+  <g opacity="0.15" fill="#FFED00">
+    <polygon points="100,30 95,50 105,50"/>
+    <polygon points="100,170 95,150 105,150"/>
+    <polygon points="30,100 50,95 50,105"/>
+    <polygon points="170,100 150,95 150,105"/>
+    <polygon points="50,50 60,55 55,60"/>
+    <polygon points="150,50 140,55 145,60"/>
+    <polygon points="50,150 60,145 55,140"/>
+    <polygon points="150,150 140,145 145,140"/>
+  </g>
+
+  <!-- Lemon/lime slice graphic -->
+  <g transform="translate(100, 130)">
+    <circle r="35" fill="#FFED00" opacity="0.3"/>
+    <circle r="28" fill="none" stroke="#FFED00" stroke-width="2" opacity="0.6"/>
+    <g opacity="0.5">
+      <line x1="0" y1="-28" x2="0" y2="28" stroke="#FFED00" stroke-width="1.5"/>
+      <line x1="-24" y1="-14" x2="24" y2="14" stroke="#FFED00" stroke-width="1.5"/>
+      <line x1="-24" y1="14" x2="24" y2="-14" stroke="#FFED00" stroke-width="1.5"/>
+    </g>
+  </g>
+
+  <!-- Sprite text with modern styling -->
+  <text x="100" y="80" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="900" fill="url(#textGrad)" text-anchor="middle" filter="url(#dropShadow)" letter-spacing="2">Sprite</text>
+
+  <!-- Accent line under text -->
+  <rect x="55" y="88" width="90" height="3" fill="#FFED00" rx="1.5" opacity="0.8"/>
+
+  <!-- Bubbles with varying sizes -->
+  <g opacity="0.8">
+    <circle cx="35" cy="45" r="5" fill="#FFFFFF"/>
+    <circle cx="40" cy="50" r="3" fill="#FFFFFF" opacity="0.7"/>
+    <circle cx="165" cy="50" r="6" fill="#FFFFFF"/>
+    <circle cx="170" cy="60" r="4" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="25" cy="100" r="4" fill="#FFFFFF" opacity="0.7"/>
+    <circle cx="175" cy="110" r="5" fill="#FFFFFF" opacity="0.8"/>
+  </g>
+
+  <!-- Extra sparkle effects -->
+  <g fill="#FFFFFF" opacity="0.9">
+    <circle cx="60" cy="60" r="2"/>
+    <circle cx="140" cy="55" r="2"/>
+    <circle cx="45" cy="85" r="1.5"/>
+    <circle cx="155" cy="90" r="1.5"/>
+  </g>
+</svg>
