@@ -1,17 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --bg: #110f19;
-  --bg-soft: #191425;
+  --bg: #140d26;
+  --bg-soft: #1e1534;
   --panel: rgba(19, 18, 31, 0.78);
   --panel-strong: rgba(27, 24, 41, 0.92);
   --line: rgba(255, 255, 255, 0.1);
   --text: #f8f1e7;
-  --muted: #bcaea6;
-  --gold: #f6c667;
-  --coral: #f07067;
-  --aqua: #6fe3d7;
-  --lime: #cbf57b;
+  --muted: #c2b2d6;
+  --gold: #c88cff;
+  --coral: #a967ff;
+  --aqua: #d3a6ff;
+  --lime: #efb7ff;
   --shadow: 0 30px 80px rgba(4, 4, 10, 0.45);
   --radius-xl: 32px;
   --radius-lg: 24px;
@@ -35,10 +35,10 @@ body {
   font-family: "Manrope", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(111, 227, 215, 0.18), transparent 28%),
-    radial-gradient(circle at top right, rgba(246, 198, 103, 0.2), transparent 24%),
-    radial-gradient(circle at 20% 80%, rgba(240, 112, 103, 0.12), transparent 22%),
-    linear-gradient(180deg, #0d0a14 0%, #130f1d 48%, #0f0d16 100%);
+    radial-gradient(circle at top left, rgba(211, 166, 255, 0.22), transparent 30%),
+    radial-gradient(circle at top right, rgba(200, 140, 255, 0.22), transparent 26%),
+    radial-gradient(circle at 20% 80%, rgba(169, 103, 255, 0.14), transparent 24%),
+    linear-gradient(180deg, #10091e 0%, #180f2d 48%, #120a21 100%);
 }
 
 body::before {
@@ -90,7 +90,7 @@ body::before {
   height: 18px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--gold), var(--coral));
-  box-shadow: 0 0 24px rgba(246, 198, 103, 0.45);
+  box-shadow: 0 0 24px rgba(200, 140, 255, 0.45);
 }
 
 .hero__content {
@@ -209,10 +209,10 @@ h2 {
 }
 
 .primary-button {
-  background: linear-gradient(135deg, var(--gold), #ffdca1);
-  color: #211307;
+  background: linear-gradient(135deg, var(--gold), #f3c1ff);
+  color: #220d35;
   font-weight: 800;
-  box-shadow: 0 18px 40px rgba(246, 198, 103, 0.25);
+  box-shadow: 0 18px 40px rgba(200, 140, 255, 0.28);
 }
 
 .ghost-button,
@@ -268,7 +268,7 @@ h2 {
   padding: 28px;
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(circle at top, rgba(111, 227, 215, 0.14), transparent 36%),
+    radial-gradient(circle at top, rgba(211, 166, 255, 0.16), transparent 36%),
     linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
     var(--panel);
   box-shadow: var(--shadow);
@@ -282,7 +282,7 @@ h2 {
   width: 180px;
   height: 180px;
   border-radius: 999px;
-  background: radial-gradient(circle, rgba(246, 198, 103, 0.35), transparent 70%);
+  background: radial-gradient(circle, rgba(200, 140, 255, 0.35), transparent 70%);
   filter: blur(4px);
 }
 
@@ -557,7 +557,7 @@ h2 {
 }
 
 .star-button.is-active {
-  background: linear-gradient(135deg, rgba(246, 198, 103, 0.28), rgba(240, 112, 103, 0.18));
+  background: linear-gradient(135deg, rgba(200, 140, 255, 0.28), rgba(169, 103, 255, 0.2));
   color: var(--gold);
 }
 
