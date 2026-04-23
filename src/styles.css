@@ -449,12 +449,15 @@ h2 {
   align-items: center;
 }
 
-.community-card__profile img {
+.community-card__avatar {
+  display: grid;
+  place-items: center;
   width: 64px;
   height: 64px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  object-fit: cover;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 2rem;
 }
 
 .community-card__profile p {

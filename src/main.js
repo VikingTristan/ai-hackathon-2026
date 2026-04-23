@@ -102,8 +102,9 @@ const beverages = [
 
 const demoUsers = [
   {
-    username: "HackyMcGoat 🐐",
-    avatar: "https://randomuser.me/api/portraits/med/men/1.jpg",
+    username: "HackyMcGoat",
+    avatarEmoji: "🐐",
+    avatarLabel: "Goat avatar",
     about: "Loves weird hackathon snacks, always up for a challenge!",
     likes: ["AI prompts", "creative voting", "open source memes"],
     dislikes: ["Boring forms", "hidden leaderboards"],
@@ -117,8 +118,9 @@ const demoUsers = [
     ],
   },
   {
-    username: "Cyborgeeky 🤖",
-    avatar: "https://randomuser.me/api/portraits/med/women/44.jpg",
+    username: "Cyborgeeky",
+    avatarEmoji: "🤖",
+    avatarLabel: "Robot avatar",
     about: "Builds tiny robots and loud opinions about flavor combos.",
     likes: ["Public vote feeds", "silly avatars", "spicy cold brew"],
     dislikes: ["Slow filters", "mystery metrics"],
@@ -132,8 +134,9 @@ const demoUsers = [
     ],
   },
   {
-    username: "PixelPenguin 🐧",
-    avatar: "https://randomuser.me/api/portraits/med/men/32.jpg",
+    username: "PixelPenguin",
+    avatarEmoji: "🐧",
+    avatarLabel: "Penguin avatar",
     about: "Part-time designer, full-time collector of oddly specific favorites.",
     likes: ["Transparent scores", "fun profiles", "coconut foam"],
     dislikes: ["Wall-of-text UIs", "empty review sections"],
@@ -470,7 +473,8 @@ function renderCards() {
 }
 
 function renderCommunityPulse() {
-  const entries = demoUsers.flatMap((user) => user[pulseMode]);
+  const activeMode = ["likes", "dislikes"].includes(pulseMode) ? pulseMode : "likes";
+  const entries = demoUsers.flatMap((user) => user[activeMode]);
   const counts = entries.reduce((map, entry) => {
     map.set(entry, (map.get(entry) || 0) + 1);
     return map;
@@ -497,42 +501,72 @@ function renderCommunity() {
     card.className = "community-card reveal";
     card.style.animationDelay = `${index * 80}ms`;
 
-    const likes = user.likes.map((item) => `<li>${item}</li>`).join("");
-    const dislikes = user.dislikes.map((item) => `<li>${item}</li>`).join("");
-    const votes = user.recentVotes
-      .map((entry) => `<li><span class="activity-pill">Vote</span><p>${entry}</p></li>`)
-      .join("");
-    const testimonials = user.testimonials
-      .map((entry) => `<li><span class="activity-pill">Testimonial</span><p>${entry}</p></li>`)
-      .join("");
+    const profile = document.createElement("div");
+    profile.className = "community-card__profile";
+    const avatar = document.createElement("span");
+    avatar.className = "community-card__avatar";
+    avatar.setAttribute("role", "img");
+    avatar.setAttribute("aria-label", user.avatarLabel);
+    avatar.textContent = user.avatarEmoji;
+    const profileCopy = document.createElement("div");
+    const username = document.createElement("h3");
+    username.textContent = user.username;
+    const about = document.createElement("p");
+    about.textContent = user.about;
+    profileCopy.append(username, about);
+    profile.append(avatar, profileCopy);
 
-    card.innerHTML = `
-      <div class="community-card__profile">
-        <img src="${user.avatar}" alt="${user.username} avatar" loading="lazy" />
-        <div>
-          <h3>${user.username}</h3>
-          <p>${user.about}</p>
-        </div>
-      </div>
-      <div class="community-card__details">
-        <div>
-          <h4>Likes</h4>
-          <ul class="tag-row">${likes}</ul>
-        </div>
-        <div>
-          <h4>Dislikes</h4>
-          <ul class="tag-row">${dislikes}</ul>
-        </div>
-      </div>
-      <div class="community-card__activity">
-        <h4>Recent votes</h4>
-        <ul>${votes}</ul>
-        <h4>Testimonials</h4>
-        <ul>${testimonials}</ul>
-      </div>
-    `;
+    const details = document.createElement("div");
+    details.className = "community-card__details";
+    details.append(
+      createCommunityTagBlock("Likes", user.likes),
+      createCommunityTagBlock("Dislikes", user.dislikes),
+    );
+
+    const activity = document.createElement("div");
+    activity.className = "community-card__activity";
+    activity.append(
+      createCommunityActivityBlock("Recent votes", "Vote", user.recentVotes),
+      createCommunityActivityBlock("Testimonials", "Testimonial", user.testimonials),
+    );
+
+    card.append(profile, details, activity);
     communityGrid.appendChild(card);
   });
+}
+
+function createCommunityTagBlock(title, entries) {
+  const block = document.createElement("div");
+  const heading = document.createElement("h4");
+  heading.textContent = title;
+  const list = document.createElement("ul");
+  list.className = "tag-row";
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    item.textContent = entry;
+    list.appendChild(item);
+  });
+  block.append(heading, list);
+  return block;
+}
+
+function createCommunityActivityBlock(title, label, entries) {
+  const wrapper = document.createElement("div");
+  const heading = document.createElement("h4");
+  heading.textContent = title;
+  const list = document.createElement("ul");
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    const pill = document.createElement("span");
+    pill.className = "activity-pill";
+    pill.textContent = label;
+    const text = document.createElement("p");
+    text.textContent = entry;
+    item.append(pill, text);
+    list.appendChild(item);
+  });
+  wrapper.append(heading, list);
+  return wrapper;
 }
 
 function rateBeverage(beverageId, value) {
