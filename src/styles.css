@@ -456,6 +456,17 @@ h2 {
   filter: blur(2px);
 }
 
+.beverage-card__image {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  z-index: 2;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+}
+
 .beverage-card__body {
   display: grid;
   gap: 18px;

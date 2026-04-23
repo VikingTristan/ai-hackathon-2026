@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Coca-Cola logo - classic red and white -->
+  <defs>
+    <radialGradient id="cokeGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#F40009;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B71C1C;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="shineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#cokeGrad)"/>
+
+  <!-- White wave ribbon -->
+  <ellipse cx="100" cy="100" rx="85" ry="20" fill="#FFFFFF" opacity="0.9"/>
+
+  <!-- Coca-Cola text (styled) -->
+  <text x="100" y="75" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="#FFFFFF" text-anchor="middle" font-style="italic">Coca-Cola</text>
+
+  <!-- Tagline on the white ribbon -->
+  <text x="100" y="105" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#F40009" text-anchor="middle">The Real Thing</text>
+
+  <!-- Bottom text -->
+  <text x="100" y="135" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle">Classic</text>
+
+  <!-- Decorative shine -->
+  <ellipse cx="70" cy="50" rx="30" ry="15" fill="url(#shineGrad)" opacity="0.5"/>
+
+  <!-- Bubbles -->
+  <circle cx="45" cy="140" r="5" fill="#FFFFFF" opacity="0.6"/>
+  <circle cx="155" cy="145" r="6" fill="#FFFFFF" opacity="0.5"/>
+  <circle cx="170" cy="70" r="4" fill="#FFFFFF" opacity="0.7"/>
+  <circle cx="30" cy="60" r="7" fill="#FFFFFF" opacity="0.5"/>
+</svg>

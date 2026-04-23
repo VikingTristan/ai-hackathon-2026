@@ -2,103 +2,40 @@ import "./styles.css";
 
 const beverages = [
   {
-    id: "aurora-matcha-tonic",
-    name: "Aurora Matcha Tonic",
-    category: "Sparkling",
-    origin: "Osaka, Japan",
-    description: "Bright matcha, yuzu zest, and tonic bubbles with a cool mineral finish.",
-    tags: ["Citrus", "Tea", "Electric"],
-    baseRating: 4.4,
-    accentA: "#6fe3d7",
-    accentB: "#cbf57b",
-  },
-  {
-    id: "ember-espresso-fizz",
-    name: "Ember Espresso Fizz",
-    category: "Coffee",
-    origin: "Melbourne, Australia",
-    description: "Cold espresso shaken with blood orange and panela syrup into a velvet sparkle.",
-    tags: ["Coffee", "Citrus", "Night Shift"],
-    baseRating: 4.7,
-    accentA: "#f07067",
-    accentB: "#f6c667",
-  },
-  {
-    id: "celestial-cacao-milk",
-    name: "Celestial Cacao Milk",
-    category: "Comfort",
-    origin: "Oaxaca, Mexico",
-    description: "Roasted cacao, cinnamon, oat milk, and a soft chili bloom that lingers.",
-    tags: ["Cacao", "Creamy", "Spiced"],
-    baseRating: 4.5,
-    accentA: "#f6c667",
-    accentB: "#f07067",
-  },
-  {
-    id: "fjordberry-spritz",
-    name: "Fjordberry Spritz",
-    category: "Sparkling",
-    origin: "Bergen, Norway",
-    description: "Lingonberry, spruce tips, and glacier-cold soda with sharp northern perfume.",
-    tags: ["Berry", "Herbal", "Crisp"],
-    baseRating: 4.3,
-    accentA: "#9bb2ff",
-    accentB: "#6fe3d7",
-  },
-  {
-    id: "midnight-jasmine-cola",
-    name: "Midnight Jasmine Cola",
+    id: "sprite",
+    name: "Sprite",
     category: "Soda",
-    origin: "Taipei, Taiwan",
-    description: "Dark caramel depth lit by jasmine aromatics and a clean star-anise snap.",
-    tags: ["Floral", "Cola", "Unexpected"],
-    baseRating: 4.1,
-    accentA: "#7f77ff",
-    accentB: "#f07067",
-  },
-  {
-    id: "sunline-mango-lassi",
-    name: "Sunline Mango Lassi",
-    category: "Comfort",
-    origin: "Jaipur, India",
-    description: "Ripe mango, cultured yogurt, saffron, and cardamom with dense silk texture.",
-    tags: ["Tropical", "Creamy", "Golden"],
-    baseRating: 4.8,
-    accentA: "#f6c667",
-    accentB: "#ff9e57",
-  },
-  {
-    id: "violet-ube-cloud",
-    name: "Violet Ube Cloud",
-    category: "Dessert",
-    origin: "Manila, Philippines",
-    description: "Toasted ube, coconut foam, and vanilla ice in a confectionary purple drift.",
-    tags: ["Dessert", "Velvet", "Coconut"],
-    baseRating: 4.2,
-    accentA: "#b985ff",
-    accentB: "#f6c667",
-  },
-  {
-    id: "atlas-citrus-mate",
-    name: "Atlas Citrus Mate",
-    category: "Tea",
-    origin: "Buenos Aires, Argentina",
-    description: "Yerba mate with pomelo and mint, tuned for focus and bright green energy.",
-    tags: ["Botanical", "Focus", "Zesty"],
+    origin: "Atlanta, USA",
+    description: "Crisp lemon-lime soda with refreshing carbonation and a clean, citrus taste.",
+    tags: ["Citrus", "Refreshing", "Crisp"],
     baseRating: 4.6,
-    accentA: "#cbf57b",
-    accentB: "#6fe3d7",
+    image: "./images/sprite.svg",
+    accentA: "#4CAF50",
+    accentB: "#1B5E20",
   },
   {
-    id: "super-duper-mountain-gray",
-    name: "Super Duper Mountain Gray",
-    category: "Tea",
-    origin: "Pokhara, Nepal",
-    description: "High-altitude black tea brightened with bergamot and pine honey for a brisk finish.",
-    tags: ["Bergamot", "Mountain", "Classic"],
-    baseRating: 4.5,
-    accentA: "#9bb2ff",
-    accentB: "#cbf57b",
+    id: "breezer",
+    name: "Breezer",
+    category: "Beverage",
+    origin: "Global",
+    description: "Tropical fruit-flavored alcoholic drink with a smooth, sweet taste and vibrant flavors.",
+    tags: ["Tropical", "Fruity", "Sweet"],
+    baseRating: 4.3,
+    image: "./images/breezer.svg",
+    accentA: "#FF6B9D",
+    accentB: "#C51162",
+  },
+  {
+    id: "coca-cola",
+    name: "Coca-Cola",
+    category: "Soda",
+    origin: "Atlanta, USA",
+    description: "The classic cola with a perfect balance of sweetness and fizz. An iconic taste known worldwide.",
+    tags: ["Classic", "Cola", "Iconic"],
+    baseRating: 4.8,
+    image: "./images/coca-cola.svg",
+    accentA: "#F40009",
+    accentB: "#B71C1C",
   },
 ];
 
@@ -211,6 +148,7 @@ app.innerHTML = `
   <template id="beverage-card-template">
     <article class="beverage-card">
       <div class="beverage-card__visual">
+        <img class="beverage-card__image" src="" alt="" />
         <div class="beverage-card__glow"></div>
         <div class="beverage-card__orb"></div>
         <p class="beverage-card__category"></p>
@@ -357,6 +295,7 @@ function renderCards() {
   list.forEach((beverage, index) => {
     const fragment = cardTemplate.content.cloneNode(true);
     const card = fragment.querySelector(".beverage-card");
+    const image = fragment.querySelector(".beverage-card__image");
     const glow = fragment.querySelector(".beverage-card__glow");
     const orb = fragment.querySelector(".beverage-card__orb");
     const category = fragment.querySelector(".beverage-card__category");
@@ -372,8 +311,20 @@ function renderCards() {
     card.classList.add("reveal");
     card.style.animationDelay = `${index * 70}ms`;
     card.dataset.id = beverage.id;
-    glow.style.background = `radial-gradient(circle, ${beverage.accentA}, transparent 70%)`;
-    orb.style.background = `radial-gradient(circle at 35% 35%, ${beverage.accentB}, transparent 72%)`;
+
+    // Set image if available, otherwise use gradients as fallback
+    if (beverage.image) {
+      image.src = beverage.image;
+      image.alt = `${beverage.name} logo`;
+      image.style.display = "block";
+      glow.style.display = "none";
+      orb.style.display = "none";
+    } else {
+      glow.style.background = `radial-gradient(circle, ${beverage.accentA}, transparent 70%)`;
+      orb.style.background = `radial-gradient(circle at 35% 35%, ${beverage.accentB}, transparent 72%)`;
+      image.style.display = "none";
+    }
+
     category.textContent = beverage.category;
     name.textContent = beverage.name;
     origin.textContent = beverage.origin;
