@@ -1,102 +1,86 @@
+import "./styles.css";
+
+const makeLogo = (svg) => `data:image/svg+xml,${encodeURIComponent(svg)}`;
+
+const spriteLogo = makeLogo(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Sprite logo">
+  <defs>
+    <linearGradient id="sprite-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#12b449" />
+      <stop offset="100%" stop-color="#0b7f30" />
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" rx="28" fill="url(#sprite-bg)" />
+  <polygon points="146,20 176,20 165,62 205,44 220,66 180,82 210,106 193,126 162,103 154,160 124,160 134,108 95,126 80,103 120,86 90,62 106,42 138,64" fill="#ffd84a" />
+  <text x="160" y="112" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="58" font-style="italic" fill="#f5faff">Sprite</text>
+</svg>
+`);
+
+const breezerLogo = makeLogo(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Breezer logo">
+  <defs>
+    <linearGradient id="breezer-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7f2ff7" />
+      <stop offset="100%" stop-color="#f107a3" />
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" rx="28" fill="url(#breezer-bg)" />
+  <circle cx="70" cy="90" r="62" fill="#ffffff22" />
+  <circle cx="260" cy="90" r="48" fill="#ffffff14" />
+  <text x="160" y="106" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="56" letter-spacing="1.8" fill="#ffffff">BREEZER</text>
+</svg>
+`);
+
+const cocaColaLogo = makeLogo(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Coca-Cola logo">
+  <rect width="320" height="180" rx="28" fill="#d91b24" />
+  <path d="M30 116C68 82 144 140 202 96C234 72 262 70 290 92" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+  <text x="160" y="106" text-anchor="middle" font-family="Brush Script MT, Segoe Script, cursive" font-size="64" fill="#ffffff">Coca-Cola</text>
+</svg>
+`);
+
+const placeholderLogo = makeLogo(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" role="img" aria-label="Beverage logo placeholder">
+  <rect width="320" height="180" rx="28" fill="#1a1d2e" />
+  <text x="160" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#ffffffaa">Logo</text>
+</svg>
+`);
 const beverages = [
   {
-    id: "aurora-matcha-tonic",
-    name: "Aurora Matcha Tonic",
-    category: "Sparkling",
-    origin: "Osaka, Japan",
-    description: "Bright matcha, yuzu zest, and tonic bubbles with a cool mineral finish.",
-    tags: ["Citrus", "Tea", "Electric"],
-    baseRating: 4.4,
-    accentA: "#6fe3d7",
-    accentB: "#cbf57b",
-  },
-  {
-    id: "ember-espresso-fizz",
-    name: "Ember Espresso Fizz",
-    category: "Coffee",
-    origin: "Melbourne, Australia",
-    description: "Cold espresso shaken with blood orange and panela syrup into a velvet sparkle.",
-    tags: ["Coffee", "Citrus", "Night Shift"],
-    baseRating: 4.7,
-    accentA: "#f07067",
-    accentB: "#f6c667",
-  },
-  {
-    id: "celestial-cacao-milk",
-    name: "Celestial Cacao Milk",
-    category: "Comfort",
-    origin: "Oaxaca, Mexico",
-    description: "Roasted cacao, cinnamon, oat milk, and a soft chili bloom that lingers.",
-    tags: ["Cacao", "Creamy", "Spiced"],
-    baseRating: 4.5,
-    accentA: "#f6c667",
-    accentB: "#f07067",
-  },
-  {
-    id: "fjordberry-spritz",
-    name: "Fjordberry Spritz",
-    category: "Sparkling",
-    origin: "Bergen, Norway",
-    description: "Lingonberry, spruce tips, and glacier-cold soda with sharp northern perfume.",
-    tags: ["Berry", "Herbal", "Crisp"],
-    baseRating: 4.3,
-    accentA: "#9bb2ff",
-    accentB: "#6fe3d7",
-  },
-  {
-    id: "midnight-jasmine-cola",
-    name: "Midnight Jasmine Cola",
+    id: "sprite",
+    name: "Sprite",
     category: "Soda",
-    origin: "Taipei, Taiwan",
-    description: "Dark caramel depth lit by jasmine aromatics and a clean star-anise snap.",
-    tags: ["Floral", "Cola", "Unexpected"],
+    origin: "Lemon-Lime",
+    description: "The classic crisp lemon-lime soda with bright carbonation.",
+    tags: ["Lemon", "Lime", "Sparkling"],
+    baseRating: 4.3,
+    accentA: "#5de57d",
+    accentB: "#c8ff5f",
+    logo: spriteLogo,
+  },
+  {
+    id: "breezer",
+    name: "Breezer",
+    category: "Ready-to-drink",
+    origin: "Flavored Malt",
+    description: "A sweet and fruity cooler-style beverage served chilled.",
+    tags: ["Fruity", "Chilled", "Party"],
     baseRating: 4.1,
-    accentA: "#7f77ff",
-    accentB: "#f07067",
+    accentA: "#d05dff",
+    accentB: "#ff77c8",
+    logo: breezerLogo,
   },
   {
-    id: "sunline-mango-lassi",
-    name: "Sunline Mango Lassi",
-    category: "Comfort",
-    origin: "Jaipur, India",
-    description: "Ripe mango, cultured yogurt, saffron, and cardamom with dense silk texture.",
-    tags: ["Tropical", "Creamy", "Golden"],
-    baseRating: 4.8,
-    accentA: "#f6c667",
-    accentB: "#ff9e57",
-  },
-  {
-    id: "violet-ube-cloud",
-    name: "Violet Ube Cloud",
-    category: "Dessert",
-    origin: "Manila, Philippines",
-    description: "Toasted ube, coconut foam, and vanilla ice in a confectionary purple drift.",
-    tags: ["Dessert", "Velvet", "Coconut"],
-    baseRating: 4.2,
-    accentA: "#b985ff",
-    accentB: "#f6c667",
-  },
-  {
-    id: "atlas-citrus-mate",
-    name: "Atlas Citrus Mate",
-    category: "Tea",
-    origin: "Buenos Aires, Argentina",
-    description: "Yerba mate with pomelo and mint, tuned for focus and bright green energy.",
-    tags: ["Botanical", "Focus", "Zesty"],
+    id: "coca-cola",
+    name: "Coca-Cola",
+    category: "Soda",
+    origin: "Classic Cola",
+    description: "Signature cola flavor with caramel sweetness and lively fizz.",
+    tags: ["Cola", "Classic", "Carbonated"],
     baseRating: 4.6,
-    accentA: "#cbf57b",
-    accentB: "#6fe3d7",
-  },
-  {
-    id: "super-duper-mountain-gray",
-    name: "Super Duper Mountain Gray",
-    category: "Tea",
-    origin: "Pokhara, Nepal",
-    description: "High-altitude black tea brightened with bergamot and pine honey for a brisk finish.",
-    tags: ["Bergamot", "Mountain", "Classic"],
-    baseRating: 4.5,
-    accentA: "#9bb2ff",
-    accentB: "#cbf57b",
+    accentA: "#ff5b67",
+    accentB: "#ff9b7f",
+    logo: cocaColaLogo,
   },
 ];
 
@@ -149,13 +133,17 @@ app.innerHTML = `
 
         <aside class="spotlight-panel" id="spotlight-panel" aria-live="polite">
           <p class="spotlight-panel__label">Current Spotlight</p>
-          <h2 id="spotlight-name">Aurora Matcha Tonic</h2>
-          <p id="spotlight-description">
-            Botanical brightness, electric citrus, and a velvet green tea finish.
-          </p>
+          <img
+            class="spotlight-panel__logo"
+            id="spotlight-logo"
+            src="${spriteLogo}"
+            alt="Sprite logo"
+          />
+          <h2 id="spotlight-name">Sprite</h2>
+          <p id="spotlight-description">The classic crisp lemon-lime soda with bright carbonation.</p>
           <div class="spotlight-panel__meta">
-            <span id="spotlight-tag">Sparkling</span>
-            <span id="spotlight-origin">Osaka, Japan</span>
+            <span id="spotlight-tag">Soda</span>
+            <span id="spotlight-origin">Lemon-Lime</span>
           </div>
         </aside>
       </div>
@@ -174,7 +162,7 @@ app.innerHTML = `
             <input
               id="search-input"
               type="search"
-              placeholder="Try yuzu, espresso, cacao..."
+              placeholder="Try cola, lemon, fruity..."
               autocomplete="off"
             />
           </label>
@@ -211,6 +199,7 @@ app.innerHTML = `
       <div class="beverage-card__visual">
         <div class="beverage-card__glow"></div>
         <div class="beverage-card__orb"></div>
+        <img class="beverage-card__logo" src="${placeholderLogo}" alt="" />
         <p class="beverage-card__category"></p>
       </div>
 
@@ -262,6 +251,7 @@ const spotlightName = document.querySelector("#spotlight-name");
 const spotlightDescription = document.querySelector("#spotlight-description");
 const spotlightTag = document.querySelector("#spotlight-tag");
 const spotlightOrigin = document.querySelector("#spotlight-origin");
+const spotlightLogo = document.querySelector("#spotlight-logo");
 const cardTemplate = document.querySelector("#beverage-card-template");
 
 function loadRatings() {
@@ -309,6 +299,8 @@ function visibleBeverages() {
 }
 
 function setSpotlight(beverage) {
+  spotlightLogo.src = beverage.logo || placeholderLogo;
+  spotlightLogo.alt = beverage.logo ? `${beverage.name} logo` : "Beverage logo placeholder";
   spotlightName.textContent = beverage.name;
   spotlightDescription.textContent = beverage.description;
   spotlightTag.textContent = beverage.category;
@@ -357,6 +349,7 @@ function renderCards() {
     const card = fragment.querySelector(".beverage-card");
     const glow = fragment.querySelector(".beverage-card__glow");
     const orb = fragment.querySelector(".beverage-card__orb");
+    const logo = fragment.querySelector(".beverage-card__logo");
     const category = fragment.querySelector(".beverage-card__category");
     const name = fragment.querySelector(".beverage-card__name");
     const origin = fragment.querySelector(".beverage-card__origin");
@@ -372,6 +365,8 @@ function renderCards() {
     card.dataset.id = beverage.id;
     glow.style.background = `radial-gradient(circle, ${beverage.accentA}, transparent 70%)`;
     orb.style.background = `radial-gradient(circle at 35% 35%, ${beverage.accentB}, transparent 72%)`;
+    logo.src = beverage.logo || placeholderLogo;
+    logo.alt = beverage.logo ? `${beverage.name} logo` : "Beverage logo placeholder";
     category.textContent = beverage.category;
     name.textContent = beverage.name;
     origin.textContent = beverage.origin;
