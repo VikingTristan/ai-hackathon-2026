@@ -37,6 +37,57 @@ const beverages = [
   },
 ];
 
+const demoUsers = [
+  {
+    username: "HackyMcGoat",
+    avatarEmoji: "🐐",
+    avatarLabel: "Goat avatar",
+    about: "Loves weird hackathon snacks, always up for a challenge!",
+    likes: ["AI prompts", "creative voting", "open source memes"],
+    dislikes: ["Boring forms", "hidden leaderboards"],
+    recentVotes: [
+      "Voted up: Best AI-powered pizza suggestion feature!",
+      "Voted up: Ember Espresso Fizz should stay #1",
+    ],
+    testimonials: [
+      "This site helped me find my tribe. 🤘",
+      "The community vibe makes every rating feel like a team sport.",
+    ],
+  },
+  {
+    username: "Cyborgeeky",
+    avatarEmoji: "🤖",
+    avatarLabel: "Robot avatar",
+    about: "Builds tiny robots and loud opinions about flavor combos.",
+    likes: ["Public vote feeds", "silly avatars", "spicy cold brew"],
+    dislikes: ["Slow filters", "mystery metrics"],
+    recentVotes: [
+      "Voted up: Atlas Citrus Mate for focus mode mornings",
+      "Voted up: Fjordberry Spritz deserves a comeback",
+    ],
+    testimonials: [
+      "Seeing everyone’s picks made me try drinks I would have skipped.",
+      "I came for beverages, stayed for the chaos comments.",
+    ],
+  },
+  {
+    username: "PixelPenguin",
+    avatarEmoji: "🐧",
+    avatarLabel: "Penguin avatar",
+    about: "Part-time designer, full-time collector of oddly specific favorites.",
+    likes: ["Transparent scores", "fun profiles", "coconut foam"],
+    dislikes: ["Wall-of-text UIs", "empty review sections"],
+    recentVotes: [
+      "Voted up: Violet Ube Cloud for dessert-hour glory",
+      "Voted up: Sunline Mango Lassi as comfort MVP",
+    ],
+    testimonials: [
+      "The testimonials gave me instant trust in what to sip next.",
+      "Love that every opinion is tied to a real (and goofy) profile.",
+    ],
+  },
+];
+
 const storageKey = "liquid-atlas-ratings";
 
 const app = document.querySelector("#app");
@@ -140,6 +191,27 @@ app.innerHTML = `
 
         <div class="beverage-grid" id="beverage-grid" aria-live="polite"></div>
       </section>
+
+      <section class="community" id="community" aria-label="Community testimonials and votes">
+        <div class="catalog__header">
+          <div>
+            <p class="eyebrow">Community Hub</p>
+            <h2>Votes, Testimonials & Demo Profiles</h2>
+          </div>
+          <p class="catalog__status" id="community-status">Loading community updates...</p>
+        </div>
+
+        <div class="community-pulse">
+          <p class="community-pulse__title">Discover what the community loves and hates</p>
+          <div class="community-pulse__actions" role="group" aria-label="Community sentiment view">
+            <button class="ghost-button is-active" id="pulse-likes" type="button">What we love</button>
+            <button class="ghost-button" id="pulse-dislikes" type="button">What we hate</button>
+          </div>
+          <ul class="tag-row community-pulse__tags" id="community-pulse-tags"></ul>
+        </div>
+
+        <div class="community-grid" id="community-grid" aria-live="polite"></div>
+      </section>
     </main>
   </div>
 
@@ -184,6 +256,7 @@ app.innerHTML = `
 let activeCategory = "all";
 let activeSearch = "";
 let spotlightIndex = 0;
+let pulseMode = "likes";
 let ratings = loadRatings();
 
 const beverageGrid = document.querySelector("#beverage-grid");
@@ -201,6 +274,11 @@ const spotlightDescription = document.querySelector("#spotlight-description");
 const spotlightTag = document.querySelector("#spotlight-tag");
 const spotlightOrigin = document.querySelector("#spotlight-origin");
 const cardTemplate = document.querySelector("#beverage-card-template");
+const communityGrid = document.querySelector("#community-grid");
+const communityStatus = document.querySelector("#community-status");
+const pulseTags = document.querySelector("#community-pulse-tags");
+const pulseLikesButton = document.querySelector("#pulse-likes");
+const pulseDislikesButton = document.querySelector("#pulse-dislikes");
 
 function loadRatings() {
   try {
@@ -345,6 +423,103 @@ function renderCards() {
   });
 }
 
+function renderCommunityPulse() {
+  const activeMode = ["likes", "dislikes"].includes(pulseMode) ? pulseMode : "likes";
+  const entries = demoUsers.flatMap((user) => user[activeMode]);
+  const counts = entries.reduce((map, entry) => {
+    map.set(entry, (map.get(entry) || 0) + 1);
+    return map;
+  }, new Map());
+  const sortedEntries = [...counts.entries()].sort((left, right) => right[1] - left[1]);
+
+  pulseTags.textContent = "";
+  sortedEntries.forEach(([entry, count]) => {
+    const item = document.createElement("li");
+    item.textContent = `${entry} (${count})`;
+    pulseTags.appendChild(item);
+  });
+
+  pulseLikesButton.classList.toggle("is-active", pulseMode === "likes");
+  pulseDislikesButton.classList.toggle("is-active", pulseMode === "dislikes");
+}
+
+function renderCommunity() {
+  communityGrid.textContent = "";
+  communityStatus.textContent = `${demoUsers.length} demo members sharing votes and testimonials`;
+
+  demoUsers.forEach((user, index) => {
+    const card = document.createElement("article");
+    card.className = "community-card reveal";
+    card.style.animationDelay = `${index * 80}ms`;
+
+    const profile = document.createElement("div");
+    profile.className = "community-card__profile";
+    const avatar = document.createElement("span");
+    avatar.className = "community-card__avatar";
+    avatar.setAttribute("role", "img");
+    avatar.setAttribute("aria-label", user.avatarLabel);
+    avatar.textContent = user.avatarEmoji;
+    const profileCopy = document.createElement("div");
+    const username = document.createElement("h3");
+    username.textContent = user.username;
+    const about = document.createElement("p");
+    about.textContent = user.about;
+    profileCopy.append(username, about);
+    profile.append(avatar, profileCopy);
+
+    const details = document.createElement("div");
+    details.className = "community-card__details";
+    details.append(
+      createCommunityTagBlock("Likes", user.likes),
+      createCommunityTagBlock("Dislikes", user.dislikes),
+    );
+
+    const activity = document.createElement("div");
+    activity.className = "community-card__activity";
+    activity.append(
+      createCommunityActivityBlock("Recent votes", "Vote", user.recentVotes),
+      createCommunityActivityBlock("Testimonials", "Testimonial", user.testimonials),
+    );
+
+    card.append(profile, details, activity);
+    communityGrid.appendChild(card);
+  });
+}
+
+function createCommunityTagBlock(title, entries) {
+  const block = document.createElement("div");
+  const heading = document.createElement("h4");
+  heading.textContent = title;
+  const list = document.createElement("ul");
+  list.className = "tag-row";
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    item.textContent = entry;
+    list.appendChild(item);
+  });
+  block.append(heading, list);
+  return block;
+}
+
+function createCommunityActivityBlock(title, label, entries) {
+  const wrapper = document.createElement("div");
+  const heading = document.createElement("h4");
+  heading.textContent = title;
+  const list = document.createElement("ul");
+  entries.forEach((entry) => {
+    const item = document.createElement("li");
+    const pill = document.createElement("span");
+    pill.className = "activity-pill";
+    pill.textContent = label;
+    const text = document.createElement("p");
+    text.textContent = entry;
+    item.append(pill, text);
+    list.appendChild(item);
+  });
+  wrapper.append(heading, list);
+  return wrapper;
+}
+
 function rateBeverage(beverageId, value) {
   ratings = {
     ...ratings,
@@ -387,6 +562,14 @@ searchInput.addEventListener("input", (event) => {
 resetFiltersButton.addEventListener("click", resetFilters);
 surpriseButton.addEventListener("click", () => rotateSpotlight(false));
 randomRatingButton.addEventListener("click", () => rotateSpotlight(true));
+pulseLikesButton.addEventListener("click", () => {
+  pulseMode = "likes";
+  renderCommunityPulse();
+});
+pulseDislikesButton.addEventListener("click", () => {
+  pulseMode = "dislikes";
+  renderCommunityPulse();
+});
 
 beverageGrid.addEventListener("click", (event) => {
   const button = event.target.closest(".star-button");
@@ -398,3 +581,5 @@ populateCategories();
 setSpotlight(beverages[0]);
 updateStats();
 renderCards();
+renderCommunityPulse();
+renderCommunity();
